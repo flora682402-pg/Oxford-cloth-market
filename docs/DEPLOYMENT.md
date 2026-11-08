@@ -6,31 +6,34 @@ spikes need no changes.
 
 ## One-time setup
 
-### 1. Cloudflare Pages project
+### 1. Move the domain's DNS to Cloudflare
 
-1. Sign in to Cloudflare and open **Workers & Pages**, then **Create**, then
-   **Pages**, then **Direct Upload**.
-2. Name the project `oxford-cloth-market`. This name has to match the deploy
-   workflow.
-3. Upload the `dist/` folder from `make build` for the first deploy.
+Cloudflare Pages can only serve the bare domain (`oxfordclothmarket.com`) when
+Cloudflare runs the domain's DNS. The registration stays at Squarespace, and
+only the nameservers change.
 
-### 2. Custom domain
+1. Before changing anything, screenshot the domain's current DNS records in
+   **Squarespace Domains → oxfordclothmarket.com → DNS**. Email (MX) and
+   verification (TXT) records must survive the move.
+2. In Cloudflare, choose **Add a domain**, enter `oxfordclothmarket.com` and
+   pick the **Free** plan. Cloudflare copies the existing records. Compare them
+   against the screenshot and add anything that's missing.
+3. Cloudflare shows two nameservers. In Squarespace Domains, open
+   **Nameservers → Use custom nameservers** and enter those two.
+4. Wait for Cloudflare to show the domain as **Active**. This usually takes
+   minutes, but it can take up to a day.
 
-1. In the Pages project, open **Custom domains** and add `oxfordclothmarket.com`
-   and `www.oxfordclothmarket.com`.
-2. Cloudflare shows the DNS records to create. Add them in **Squarespace
-   Domains**, where the original Google Domains registration now lives.
-3. Wait for both domains to show **Active**. HTTPS certificates are issued
-   automatically.
+### 2. Automatic deploys from GitHub
 
-### 3. Automatic deploys from GitHub
-
-1. In Cloudflare, create an API token with the **Cloudflare Pages: Edit**
-   permission. Copy your **Account ID** from the dashboard sidebar.
+1. In Cloudflare, create an API token from the **Edit Cloudflare Workers**
+   template (it includes Pages). Copy your **Account ID** from the dashboard.
 2. In GitHub, open **Settings**, then **Secrets and variables**, then
    **Actions**, and add:
    - `CLOUDFLARE_API_TOKEN`
    - `CLOUDFLARE_ACCOUNT_ID`
+3. In GitHub, open **Actions → Deploy → Run workflow**. The first run creates
+   the `oxford-cloth-market` Pages project and publishes the site at
+   `oxford-cloth-market.pages.dev`.
 
 From then on:
 
@@ -40,6 +43,13 @@ From then on:
 
 Until both secrets exist, the deploy step is skipped and says so in the log.
 Tests still run.
+
+### 3. Custom domain
+
+1. In Cloudflare, open **Workers & Pages → oxford-cloth-market → Custom
+   domains**. Add `oxfordclothmarket.com`, then `www.oxfordclothmarket.com`.
+2. Because Cloudflare now runs the DNS, it creates the records and the HTTPS
+   certificates itself. Both domains show **Active** within minutes.
 
 ## What the host is told
 

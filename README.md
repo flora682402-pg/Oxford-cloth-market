@@ -97,7 +97,7 @@ tools/serve.py      local server that mimics Cloudflare Pages
 ## Documentation
 
 - [docs/CONTENT.md](docs/CONTENT.md): adding products, events and articles
-- [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md): Cloudflare Pages, the domain and automatic deploys
+- [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md): moving DNS to Cloudflare, automatic deploys, the custom domain
 - [docs/AUDIT.md](docs/AUDIT.md): engineering audit, findings and test coverage
 - [docs/IMAGE-CREDITS.md](docs/IMAGE-CREDITS.md): where every image comes from
 - [CHANGELOG.md](CHANGELOG.md)

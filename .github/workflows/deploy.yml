@@ -64,4 +64,6 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # First run creates the Pages project; later runs see it exists and move on.
+          preCommands: npx wrangler pages project create oxford-cloth-market --production-branch=main || true
           command: pages deploy dist --project-name=oxford-cloth-market --branch=main
