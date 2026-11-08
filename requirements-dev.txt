@@ -1,0 +1,4 @@
+# Needed to run the tests (includes the build requirements)
+-r requirements.txt
+pytest>=8.0,<10
+playwright>=1.45,<2
