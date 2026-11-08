@@ -1,0 +1,20 @@
+{
+  "articles": [
+    {
+      "title": "Reading the label: a field guide to vintage Brooks Brothers",
+      "dek": "Golden Fleece, 346, Makers. How to date a Brooks Brothers piece from the tag alone, and which decades are worth the hunt.",
+      "image": "editorial-label.webp",
+      "alt": "Man in a wool crewneck and flat cap carrying a newspaper through tall grass",
+      "position": "center 30%",
+      "url": ""
+    },
+    {
+      "title": "Why a made-in-USA silk tie is still worth hunting",
+      "dek": "Heavier silk, hand-slipped construction and a knot that holds. What to look for on the back blade before you buy.",
+      "image": "editorial-ties.webp",
+      "alt": "Woman in a grey jacket with a white shirt and patterned tie",
+      "position": "center 25%",
+      "url": ""
+    }
+  ]
+}

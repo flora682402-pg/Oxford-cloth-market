@@ -1,0 +1,32 @@
+{
+  "site_url": "https://oxfordclothmarket.com",
+  "name": "Oxford Cloth Market",
+  "tagline": "Great style doesn't follow trends. It lasts.",
+  "description": "Hand-picked vintage and secondhand menswear from Tulsa: Brooks Brothers, Ralph Lauren, Gitman and made-in-USA silk ties. Shop online or find us at our next pop-up.",
+  "founded": "2025",
+  "instagram": "https://www.instagram.com/oxfordclothmarket",
+  "ebay_store": "https://www.ebay.com/str/oxfordclothmarket",
+  "newsletter_action": "",
+  "categories": [
+    [
+      "shirts",
+      "Shirts"
+    ],
+    [
+      "tailoring",
+      "Tailoring"
+    ],
+    [
+      "trousers",
+      "Trousers"
+    ],
+    [
+      "ties",
+      "Ties"
+    ],
+    [
+      "accessories",
+      "Accessories"
+    ]
+  ]
+}

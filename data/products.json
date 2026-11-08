@@ -1,0 +1,272 @@
+{
+  "source": "eBay store oxfordclothmarket",
+  "updated": "2026-11-08",
+  "items": [
+    {
+      "id": "317189935751",
+      "category": "tailoring",
+      "brand": "Polo Ralph Lauren",
+      "name": "Polo Ralph Lauren wool blazer, made in Italy",
+      "detail": "Wool · Y2K",
+      "price": "65.00",
+      "currency": "USD",
+      "url": "https://www.ebay.com/itm/317189935751",
+      "image": "317189935751.webp"
+    },
+    {
+      "id": "317189876211",
+      "category": "tailoring",
+      "brand": "J.Crew",
+      "name": "J.Crew linen-cotton herringbone sport coat",
+      "detail": "42R",
+      "price": "50.00",
+      "currency": "USD",
+      "url": "https://www.ebay.com/itm/317189876211",
+      "image": "317189876211.webp",
+      "featured": {
+        "order": 3,
+        "alt": "Grey herringbone J.Crew sport coat laid flat",
+        "name": "J.Crew linen-cotton herringbone sport coat",
+        "detail": "42R"
+      }
+    },
+    {
+      "id": "317189927187",
+      "category": "tailoring",
+      "brand": "Charles Klein",
+      "name": "Charles Klein leather utility vest",
+      "detail": "Suede leather",
+      "price": "38.00",
+      "currency": "USD",
+      "url": "https://www.ebay.com/itm/317189927187",
+      "image": "317189927187.webp"
+    },
+    {
+      "id": "317189767758",
+      "category": "shirts",
+      "brand": "Gitman Bros.",
+      "name": "Gitman Bros. Vintage button-down",
+      "detail": "Small · Made in USA",
+      "price": "32.00",
+      "currency": "USD",
+      "url": "https://www.ebay.com/itm/317189767758",
+      "image": "317189767758.webp",
+      "featured": {
+        "order": 1,
+        "alt": "Magenta Gitman Bros. Vintage button-down laid flat",
+        "name": "Gitman Bros. Vintage button-down, made in USA",
+        "detail": "Small"
+      }
+    },
+    {
+      "id": "317189695687",
+      "category": "shirts",
+      "brand": "Brooks Brothers",
+      "name": "Brooks Brothers Golden Fleece polo, 80s–90s",
+      "detail": "Made in USA",
+      "price": "40.00",
+      "currency": "USD",
+      "url": "https://www.ebay.com/itm/317189695687",
+      "image": "317189695687.webp",
+      "featured": {
+        "order": 2,
+        "alt": "Blue Brooks Brothers Golden Fleece polo laid flat",
+        "name": "Brooks Brothers Golden Fleece polo, 80s–90s",
+        "detail": "Made in USA"
+      }
+    },
+    {
+      "id": "317189861340",
+      "category": "shirts",
+      "brand": "Ralph Lauren",
+      "name": "Ralph Lauren pink herringbone button-down",
+      "detail": "16",
+      "price": "25.50",
+      "currency": "USD",
+      "url": "https://www.ebay.com/itm/317189861340",
+      "image": "317189861340.webp"
+    },
+    {
+      "id": "317189759374",
+      "category": "shirts",
+      "brand": "Ralph Lauren",
+      "name": "Ralph Lauren striped button-down, Y2K",
+      "detail": "Classic fit",
+      "price": "25.00",
+      "currency": "USD",
+      "url": "https://www.ebay.com/itm/317189759374",
+      "image": "317189759374.webp"
+    },
+    {
+      "id": "317189955918",
+      "category": "shirts",
+      "brand": "Polo Ralph Lauren",
+      "name": "Polo Ralph Lauren camp-collar shirt",
+      "detail": "Camp collar",
+      "price": "35.00",
+      "currency": "USD",
+      "url": "https://www.ebay.com/itm/317189955918",
+      "image": "317189955918.webp"
+    },
+    {
+      "id": "317189854621",
+      "category": "shirts",
+      "brand": "Tommy Bahama",
+      "name": "Tommy Bahama silk camp-collar shirt",
+      "detail": "100% silk",
+      "price": "22.99",
+      "currency": "USD",
+      "url": "https://www.ebay.com/itm/317189854621",
+      "image": "317189854621.webp"
+    },
+    {
+      "id": "317189819652",
+      "category": "shirts",
+      "brand": "P.K. Mui",
+      "name": "P.K. Mui tropical silk shirt, 80s",
+      "detail": "100% silk",
+      "price": "35.00",
+      "currency": "USD",
+      "url": "https://www.ebay.com/itm/317189819652",
+      "image": "317189819652.webp"
+    },
+    {
+      "id": "317189806717",
+      "category": "shirts",
+      "brand": "Abercrombie & Fitch",
+      "name": "Abercrombie & Fitch camp-collar shirt, Y2K",
+      "detail": "Large",
+      "price": "25.00",
+      "currency": "USD",
+      "url": "https://www.ebay.com/itm/317189806717",
+      "image": "317189806717.webp"
+    },
+    {
+      "id": "317189837288",
+      "category": "shirts",
+      "brand": "Dockers",
+      "name": "Dockers paisley camp-collar shirt, Y2K",
+      "detail": "Camp collar",
+      "price": "22.50",
+      "currency": "USD",
+      "url": "https://www.ebay.com/itm/317189837288",
+      "image": "317189837288.webp"
+    },
+    {
+      "id": "317188200846",
+      "category": "trousers",
+      "brand": "Polo Ralph Lauren",
+      "name": "Polo Ralph Lauren Tyler pleated chino shorts, 90s",
+      "detail": "Khaki",
+      "price": "25.00",
+      "currency": "USD",
+      "url": "https://www.ebay.com/itm/317188200846",
+      "image": "317188200846.webp"
+    },
+    {
+      "id": "317188214427",
+      "category": "trousers",
+      "brand": "Tommy Bahama",
+      "name": "Tommy Bahama pleated silk-blend shorts",
+      "detail": "34",
+      "price": "25.00",
+      "currency": "USD",
+      "url": "https://www.ebay.com/itm/317188214427",
+      "image": "317188214427.webp"
+    },
+    {
+      "id": "317188069021",
+      "category": "trousers",
+      "brand": "Old Navy",
+      "name": "Old Navy patchwork madras shorts, Y2K",
+      "detail": "38",
+      "price": "25.00",
+      "currency": "USD",
+      "url": "https://www.ebay.com/itm/317188069021",
+      "image": "317188069021.webp"
+    },
+    {
+      "id": "317188051878",
+      "category": "trousers",
+      "brand": "Arlotta",
+      "name": "Arlotta white denim jeans",
+      "detail": "34",
+      "price": "30.00",
+      "currency": "USD",
+      "url": "https://www.ebay.com/itm/317188051878",
+      "image": "317188051878.webp"
+    },
+    {
+      "id": "317190044523",
+      "category": "ties",
+      "brand": "Burberrys",
+      "name": "Burberrys silk tie, made in USA",
+      "detail": "Silk",
+      "price": "26.00",
+      "currency": "USD",
+      "url": "https://www.ebay.com/itm/317190044523",
+      "image": "317190044523.webp",
+      "featured": {
+        "order": 4,
+        "alt": "Burberrys silk tie with a red medallion print",
+        "name": "Burberrys silk tie, made in USA",
+        "detail": "Silk"
+      }
+    },
+    {
+      "id": "317190071548",
+      "category": "ties",
+      "brand": "Christian Dior",
+      "name": "Christian Dior Monsieur silk tie, made in USA",
+      "detail": "Silk",
+      "price": "15.00",
+      "currency": "USD",
+      "url": "https://www.ebay.com/itm/317190071548",
+      "image": "317190071548.webp"
+    },
+    {
+      "id": "317190050090",
+      "category": "ties",
+      "brand": "Gant",
+      "name": "Gant silk tie, made in USA",
+      "detail": "Silk",
+      "price": "15.00",
+      "currency": "USD",
+      "url": "https://www.ebay.com/itm/317190050090",
+      "image": "317190050090.webp"
+    },
+    {
+      "id": "317190060954",
+      "category": "ties",
+      "brand": "Brooks Brothers",
+      "name": "Brooks Brothers silk tie",
+      "detail": "Silk",
+      "price": "10.00",
+      "currency": "USD",
+      "url": "https://www.ebay.com/itm/317190060954",
+      "image": "317190060954.webp"
+    },
+    {
+      "id": "317190069633",
+      "category": "ties",
+      "brand": "Chaps",
+      "name": "Chaps Ralph Lauren tie, made in USA",
+      "detail": "Made in USA",
+      "price": "14.95",
+      "currency": "USD",
+      "url": "https://www.ebay.com/itm/317190069633",
+      "image": "317190069633.webp"
+    },
+    {
+      "id": "317190062616",
+      "category": "ties",
+      "brand": "Oscar de la Renta",
+      "name": "Oscar de la Renta silk tie, made in USA",
+      "detail": "Silk",
+      "price": "9.18",
+      "currency": "USD",
+      "url": "https://www.ebay.com/itm/317190062616",
+      "image": "317190062616.webp"
+    }
+  ]
+}
