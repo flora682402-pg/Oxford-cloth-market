@@ -25,8 +25,12 @@ only the nameservers change.
 
 ### 2. Automatic deploys from GitHub
 
-1. In Cloudflare, create an API token from the **Edit Cloudflare Workers**
-   template (it includes Pages). Copy your **Account ID** from the dashboard.
+1. In Cloudflare, open **My Profile → API Tokens → Create Token** and build a
+   custom token named `GitHub deploy`: **Start from scratch → Account policy**,
+   your account, permission **Cloudflare Pages: Edit**, no expiration, no IP
+   filter. (Avoid the templates. They grant far more than Pages access.) Copy
+   the token once, then copy the Account ID from the dashboard address
+   (`dash.cloudflare.com/<account id>/home`).
 2. In GitHub, open **Settings**, then **Secrets and variables**, then
    **Actions**, and add:
    - `CLOUDFLARE_API_TOKEN`
