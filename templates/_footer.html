@@ -1,0 +1,32 @@
+{%- import "_macros.html" as m with context -%}
+{%- set home = "" if here == "index" else page("index") -%}
+{%- set clo = page("clothing") -%}
+<footer class="ftr">
+  <div class="ftr-in">
+    <div class="ftr-top">
+      <div>
+        <h2>Sign up for new arrivals</h2>
+        {#- With a provider the browser validates and posts natively (works without JS);
+            without one, site.js validates and explains that sign-up isn't open yet. #}
+        <form class="nl" id="nl" {% if cfg.newsletter_action %}action="{{ cfg.newsletter_action }}" method="post"{% else %}novalidate{% endif %}>
+          <label for="email" class="sr-only">Email address</label>
+          <input id="email" name="email" type="email" placeholder="Email address" autocomplete="email" required>
+          <button type="submit" aria-label="Sign up">→</button>
+        </form>
+        <p class="nl-msg" id="nlMsg" aria-live="polite"></p>
+      </div>
+      <details open><summary>Shop</summary><ul>
+        {%- for key, label in cfg.categories if key != "accessories" -%}
+        <li><a href="{{ clo }}#{{ key }}">{{ label }}</a></li>
+        {%- endfor -%}
+      </ul></details>
+      <details open><summary>About</summary><ul><li><a href="{{ home }}#about">Our story</a></li><li><a href="{{ home }}#popups">Pop-ups</a></li><li><a href="{{ home }}#editorial">Editorial</a></li></ul></details>
+      <details open><summary>Follow</summary><ul><li><a href="{{ cfg.instagram }}">Instagram</a></li><li><a href="{{ cfg.ebay_store }}">eBay</a></li></ul></details>
+    </div>
+    <div class="sign">
+      <p>{{ cfg.tagline }}</p>
+      {{ m.img("img/logo.webp", "") }}
+    </div>
+    <div class="legal"><span>© {{ year }} {{ cfg.name }} · Est. {{ cfg.founded }}</span><a href="#top">Back to top</a></div>
+  </div>
+</footer>

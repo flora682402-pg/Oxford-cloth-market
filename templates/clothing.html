@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{#- Clothing page: every product from data/products.json, filtered by category
+    in the browser (src/site.js) using the URL hash, e.g. /clothing#ties. -#}
+{% block main %}
+{%- import "_macros.html" as m with context -%}
+<main id="main">
+  <section class="shop-intro">
+    <h1 id="shopTitle">Clothing</h1>
+    <p>Every piece is one of one: handpicked, cleaned and photographed by us. Tap any piece to buy it on eBay.</p>
+    <nav class="chips" aria-label="Filter by category"><a href="#all" data-k="all" data-label="All">All<span class="n">{{ products|length }}</span></a>
+      {%- for key, label in cfg.categories -%}
+      <a href="#{{ key }}" data-k="{{ key }}" data-label="{{ label }}">{{ label }}<span class="n">{{ counts[key] }}</span></a>
+      {%- endfor -%}
+    </nav>
+  </section>
+  <section class="rack" aria-label="Pieces for sale">
+    {%- for p in products %}
+    <a class="item" data-cat="{{ p.category }}" href="{{ p.url }}">
+      {#- The first row loads right away; the rest load as the visitor scrolls. #}
+      <div class="shot">{{ m.product_img(p, p.name, "(max-width:900px) 50vw, (max-width:1100px) 33vw, 25vw", lazy=loop.index0 >= 4, priority=loop.first) }}</div>
+      <h2>{{ p.name }}</h2>
+      <div class="meta"><span>{{ p.detail }}</span><b>{{ money(p.price) }}</b></div>
+      <span class="ulink">View on eBay</span>
+    </a>
+    {%- endfor %}
+  </section>
+  <div class="empty" id="empty"{{ ' hidden' if products }}>
+    <h2>Nothing here right now</h2>
+    <p>New pieces go up most weeks. Instagram gets them first.</p>
+    <a class="ulink" href="{{ cfg.instagram }}">Follow on Instagram</a>
+  </div>
+  <p class="note">Prices and availability from eBay as of {{ updated }}. If a piece has sold, the eBay listing will say so.</p>
+</main>
+{% endblock %}

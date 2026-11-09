@@ -14,9 +14,9 @@ server and no database, so it is fast, inexpensive to host and hard to break.
 | | |
 | --- | --- |
 | Pages | Home, Clothing (filterable by category), 404 |
-| Build | `build.py`: Python 3.10+ and Pillow |
+| Build | `build.py` + `templates/`: Python 3.10+, Pillow and Jinja2 |
 | Hosting | Cloudflare Pages (static files on a global CDN) |
-| Tests | 94: build, content and data checks, plus real-browser tests |
+| Tests | 113: build, content, data and template checks, plus real-browser tests |
 | Checks on every push | Build, strict TypeScript check of the JavaScript, full test suite |
 | Deploys | Automatic from `main` once Cloudflare is connected, plus a daily rebuild |
 
@@ -35,10 +35,11 @@ No `make`? Run `python3 build.py`, `python3 tools/serve.py dist` and
 ## How it works
 
 ```text
-config.json ─┐
-data/*.json ─┼─> build.py ─> validate ─> escape ─> render ─> dist/
-media/      ─┤                                               ├─ index.html, clothing.html, 404.html
-src/        ─┘                                               ├─ assets/ (fingerprinted CSS + JS)
+config.json  ─┐
+data/*.json  ─┤
+templates/   ─┼─> build.py ─> validate ─> render (Jinja2) ─> dist/
+media/       ─┤                                              ├─ index.html, clothing.html, 404.html
+src/         ─┘                                              ├─ assets/ (fingerprinted CSS + JS)
                                                              ├─ img/ (sized product photos)
                                                              └─ _headers, robots.txt, sitemap.xml
 ```
@@ -47,11 +48,15 @@ src/        ─┘                                               ├─ assets/ 
    price, an unknown category, a missing photo or a link that isn't an eBay
    listing stops the build with a message naming the problem. The last good
    `dist/` is left alone.
-2. **Escape.** All text is HTML-escaped, so product data from an automated
-   eBay sync can never inject markup or scripts.
-3. **Render.** Pages share one header, footer, stylesheet and script. Images
-   get their real dimensions and phone-sized copies, and CSS and JS get
-   content-hashed filenames so browsers can cache them for a year.
+2. **Render.** The HTML lives in `templates/` as Jinja2 templates. Pages share
+   one layout, header and footer, and repeated pieces (photo tiles, product
+   cards) are loops over data, not copies. Jinja2 escapes all text, so product
+   data from an automated eBay sync can never inject markup or scripts, and a
+   misspelled template variable stops the build instead of rendering blank.
+3. **Optimize.** Images get their real dimensions and phone-sized copies, and
+   CSS and JS get content-hashed filenames so browsers can cache them for a
+   year. `build.py` contains no HTML; it validates data, prepares images and
+   fills in the templates.
 
 ## Updating the site
 
@@ -62,23 +67,25 @@ step-by-step instructions.
 | --- | --- |
 | Products, prices, Product in Focus | `data/products.json` and `media/products/` |
 | Pop-up dates | `data/events.json` (past dates drop off automatically) |
+| Homepage photo tiles, their copy and crops | `data/home.json` |
 | Editorial teasers | `data/editorial.json` ("Read more" appears once an article has a `url`) |
+| Page layout and wording | `templates/` (one file per page, plus shared header and footer) |
 | Domain, social links, newsletter | `config.json` |
 | Styles and behavior | `src/styles.css`, `src/site.js` |
 
 ## Repository layout
 
-```text
-.github/workflows/  CI on every push and pull request, deploy to Cloudflare Pages
-build.py            site generator
-config.json         site settings
-data/               products, events, editorial teasers
-docs/               content guide, deployment guide, engineering audit
-media/              source images: brand, mood photography, product photos
-src/                styles.css and site.js
-tests/              pytest suites and run_all.sh
-tools/serve.py      local server that mimics Cloudflare Pages
-```
+| Path | What it holds |
+| --- | --- |
+| `build.py` | Site generator: validation, images, rendering |
+| `templates/` | Page HTML: `base.html` layout, header, footer, one file per page |
+| `data/`, `config.json` | Content and settings |
+| `media/` | Source images: brand, lifestyle photography, product photos |
+| `src/` | `styles.css` and `site.js` |
+| `tests/` | pytest suites and `run_all.sh` |
+| `tools/serve.py` | Local server that mimics Cloudflare Pages |
+| `docs/` | Content guide, deployment guide, audit, image credits |
+| `.github/workflows/` | CI on every push and pull request, deploy to Cloudflare Pages |
 
 ## Quality bar
 
@@ -91,8 +98,8 @@ tools/serve.py      local server that mimics Cloudflare Pages
   alt text on every image, and reduced-motion support.
 - **SEO.** Canonical URLs, Open Graph images, structured data, sitemap and
   robots.txt.
-- **Tested.** 94 tests, including browser checks at 320, 390, 768, 1024 and
-  1440px wide against the production security headers.
+- **Tested.** 113 tests, including browser checks from 320 to 3440px wide
+  against the production security headers.
 
 ## Documentation
 

@@ -1,0 +1,22 @@
+{#- Page shell. `fragment` is only set for the Claude preview's main page,
+    whose host supplies <html>, <head> and <body> itself. -#}
+{% if fragment -%}
+<title>{{ cfg.name }}</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+{% include "_assets.html" %}
+{%- else -%}
+<!doctype html>
+<html lang="en">
+<head>
+{% include "_head.html" %}
+</head>
+<body>
+{%- endif %}
+{% include "_header.html" %}
+{% block main %}{% endblock %}
+{% include "_footer.html" %}
+{% if not fragment -%}
+</body>
+</html>
+{% endif %}

@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{#- Homepage. Tile rows, photos and crops come from data/home.json; editorial
+    teasers from data/editorial.json; products and pop-ups from their own files. -#}
+{% block main %}
+{%- import "_macros.html" as m with context -%}
+{%- set clo = page("clothing") -%}
+<main id="main">
+  <section class="hero">
+    <div class="ph"><picture><source media="(max-width:900px)" srcset="{{ asset('img/hero-phone.webp') }}" width="{{ dims('img/hero-phone.webp')[0] }}" height="{{ dims('img/hero-phone.webp')[1] }}">{{ m.img("img/hero.webp", home.hero.alt, lazy=false, priority=true) }}</picture></div>
+    <div class="hero-cap">
+      <h1>Great style doesn't follow trends.<br>It lasts.</h1>
+      <div class="links"><a class="ulink" href="#about">Our story</a><a class="ulink" href="{{ clo }}">Shop new in</a></div>
+    </div>
+  </section>
+{% for row in home.rows %}
+  <section class="duo">
+    {%- for t in row %}
+    <div class="tile">{{ m.photo(t.image, t.alt, t.position) }}
+      <div class="copy"><p>{{ t["copy"] }}</p><a class="ulink" href="{{ clo }}#{{ t.category }}">{{ t.link }}</a></div></div>
+    {%- endfor %}
+  </section>
+  {%- set a = articles[loop.index0] if loop.index0 < articles|length else none %}
+  {%- if a %}
+
+  <section class="feature{{ ' flip' if loop.index0 is odd }}"{{ ' id="editorial"'|safe if loop.first }}>
+    <div class="txt">
+      <p class="label kicker">Editorial</p>
+      <h2>{{ a.title }}</h2>
+      <p>{{ a.dek }}</p>
+      {%- if a.url %}
+      <a class="ulink" href="{{ a.url }}">Read more</a>
+      {%- endif %}
+    </div>
+    <div class="img">{{ m.photo(a.image, a.alt, a.position or "center 25%") }}</div>
+  </section>
+  {%- endif %}
+{% endfor %}
+  <section class="focus" aria-labelledby="focus-h">
+    {{ m.photo(home.focus.image, home.focus.alt, home.focus.position) }}
+    <div class="focus-in">
+      <h2 id="focus-h">Product in Focus</h2>
+      <div class="grid4">
+        {%- for p in featured %}
+        <a class="card" href="{{ p.url }}">
+          <div class="shot">{{ m.product_img(p, p.featured.alt or p.name, "(max-width:900px) 50vw, 25vw") }}</div>
+          <h3>{{ p.featured.name }}</h3><div class="meta"><span>{{ p.featured.detail }}</span><span>{{ money(p.price) }}</span></div></a>
+        {%- endfor %}
+      </div>
+    </div>
+  </section>
+
+  <section class="popups" id="popups">
+    <div class="popups-in">
+      <div>
+        <p class="label eyebrow">Find us in person</p>
+        <h2>Pop-ups</h2>
+        <p>Racks of hand-picked vintage, set up around Tulsa. Come try things on.</p>
+      </div>
+      <ul class="events">
+        {%- for e in events %}
+        <li data-date="{{ e.date }}"><div class="date"><span class="label">{{ e.label }}</span><b>{{ e.day }}</b></div><div><h3>{{ e.name }}</h3><span class="where">{{ e.where }}</span></div><a class="ulink" href="{{ e.url }}">Details</a></li>
+        {%- endfor %}
+        <li class="none" id="noEvents"{{ ' hidden' if events }}>New dates are on the way. Instagram gets them first.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="feature" id="about">
+    <div class="txt">
+      <p class="label kicker">About us</p>
+      <h2>Your home for vintage and secondhand style</h2>
+      <p>We specialize in classic menswear, but we like to think our pieces look good on everyone. Every garment is handpicked for character, craftsmanship and staying power. Dressing up, down or somewhere in between, {{ cfg.name }} has you covered.</p>
+      <a class="ulink" href="{{ clo }}">Shop the rack</a>
+    </div>
+    <div class="img">{{ m.photo(home.about.image, home.about.alt, home.about.position) }}</div>
+  </section>
+
+  <section class="ig">
+    <h2>@oxfordclothmarket</h2>
+    <p>New finds and fits, posted first on Instagram.</p>
+    <a class="ulink" href="{{ cfg.instagram }}">Follow on Instagram</a>
+  </section>
+</main>
+{% endblock %}
