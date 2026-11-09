@@ -5,6 +5,7 @@ Run: python3 -m pytest tests/test_browser.py
 from __future__ import annotations
 
 import datetime as dt
+import re
 import shutil
 
 import pytest
@@ -94,7 +95,8 @@ def test_all_images_load(open_page):
         page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
         page.wait_for_load_state("networkidle")
         page.evaluate("document.querySelectorAll('img').forEach(i => i.loading = 'eager')")
-        page.wait_for_function("[...document.images].every(i => i.complete)")
+        page.evaluate("""() => Promise.all([...document.images].map(i => i.complete ? null :
+            new Promise(done => { i.addEventListener('load', done); i.addEventListener('error', done); })))""")
         broken = page.evaluate("[...document.images].filter(i => !i.naturalWidth).map(i => i.src)")
         assert broken == []
 
@@ -137,7 +139,9 @@ def test_menu_hidden_on_desktop(open_page):
 def test_badge_docks_on_scroll(open_page):
     page = open_page("/", width=1440)
     page.mouse.wheel(0, 600)
-    page.wait_for_function("document.getElementById('hdr').classList.contains('scrolled')")
+    # expect() polls from Python; wait_for_function would eval a string, which
+    # the site's own Content-Security-Policy (correctly) blocks.
+    expect(page.locator("#hdr")).to_have_class(re.compile(r"\bscrolled\b"))
     page.wait_for_timeout(500)
     box = page.locator(".badge").bounding_box()
     assert 55 <= box["height"] <= 61  # 58px docked size, same as before
