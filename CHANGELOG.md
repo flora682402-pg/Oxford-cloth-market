@@ -1,5 +1,22 @@
 # Changelog
 
+## 1.1.0 — 2026-11-09
+
+### Changed
+
+- Page HTML moved out of `build.py` into Jinja2 templates in `templates/`:
+  a shared layout, header and footer, and one file per page. The build script
+  now holds no HTML.
+- Homepage photo tiles are a loop over `data/home.json` instead of four
+  hand-written copies, so tile text, photos and crops are data edits.
+- Output is identical to 1.0.1, verified tag-by-tag on every page of both the
+  production and preview builds.
+
+### Added
+
+- Validation for `data/home.json`, and tests that a template typo fails the
+  build and that no HTML returns to `build.py` (113 tests).
+
 ## 1.0.1 — 2026-11-09
 
 ### Fixed

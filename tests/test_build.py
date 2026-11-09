@@ -298,7 +298,7 @@ def test_product_text_is_escaped(site):
     out = build.build(today=TODAY)
     text = (out / "clothing.html").read_text()
     assert "<script>alert(1)" not in text and "<img src=x" not in text
-    assert "Tie &lt;script&gt;alert(1)&lt;/script&gt; &amp; &quot;quotes&quot;" in text
+    assert "Tie &lt;script&gt;alert(1)&lt;/script&gt; &amp; &#34;quotes&#34;" in text
     assert Doc(text).errors == []
 
 
@@ -399,3 +399,41 @@ def test_product_in_focus_background_shows_the_jacket_not_the_face(dist):
     text = (dist / "index.html").read_text()
     m = re.search(r'focus-teal\.webp"[^>]*object-position:center (\d+)%', text)
     assert m and 45 <= int(m.group(1)) <= 60, m and m.group(0)
+
+
+# ------------------------------------------------------------ templates
+
+def test_homepage_tiles_come_from_data(site):
+    def edit(d):
+        d["rows"][0][0]["copy"] = "Brand-new tailoring copy & more"
+        d["rows"][0][0]["link"] = "Shop jackets"
+    edit_json(site / "data/home.json", edit)
+    text = (build.build(today=TODAY) / "index.html").read_text()
+    assert "Brand-new tailoring copy &amp; more" in text and ">Shop jackets</a>" in text
+    assert text.count('class="tile"') == 4
+
+
+@pytest.mark.parametrize("change,message", [
+    (lambda d: d["rows"][0][0].__setitem__("category", "hats"), "unknown category"),
+    (lambda d: d["rows"][0][0].__setitem__("image", "missing.webp"), "not found"),
+    (lambda d: d["rows"][0][0].__setitem__("position", "top; color: red"), "position"),
+    (lambda d: d["rows"][0].pop(), "exactly two tiles"),
+    (lambda d: d["focus"].__setitem__("alt", ""), "missing alt"),
+])
+def test_invalid_home_data_is_rejected(site, change, message):
+    edit_json(site / "data/home.json", change)
+    with pytest.raises(build.BuildError, match=message):
+        build.build(today=TODAY)
+
+
+def test_template_typos_fail_the_build(site):
+    """StrictUndefined: a misspelled variable must stop the build, not render blank."""
+    p = site / "templates/404.html"
+    p.write_text(p.read_text().replace("{{ page('clothing') }}", "{{ pgae('clothing') }}"))
+    with pytest.raises(Exception, match="pgae"):
+        build.build(today=TODAY)
+
+
+def test_no_html_left_in_build_py():
+    src = (build.ROOT / "build.py").read_text()
+    assert not re.search(r"<(div|section|main|footer|header|nav|ul|li|h[1-6]|p)[ >]", src)

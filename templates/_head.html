@@ -1,0 +1,29 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{{ title }}</title>
+<meta name="description" content="{{ description }}">
+{% if noindex -%}
+<meta name="robots" content="noindex">
+{%- else -%}
+<link rel="canonical" href="{{ abs(path) }}">
+{%- endif %}
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="{{ cfg.name }}">
+<meta property="og:title" content="{{ title }}">
+<meta property="og:description" content="{{ description }}">
+<meta property="og:url" content="{{ abs(path) }}">
+<meta property="og:image" content="{{ og.url }}">
+<meta property="og:image:width" content="{{ og.width }}"><meta property="og:image:height" content="{{ og.height }}">
+<meta property="og:image:alt" content="Man in a brown sport coat and foulard tie by a window">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#F2EADB">
+<link rel="icon" href="{{ asset('favicon.ico') }}" sizes="48x48">
+<link rel="icon" type="image/png" href="{{ asset('favicon-32.png') }}" sizes="32x32">
+<link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
+<link rel="manifest" href="{{ asset('site.webmanifest') }}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+{% include "_assets.html" %}
+{% if ld -%}
+<script type="application/ld+json">{{ ld }}</script>
+{%- endif %}

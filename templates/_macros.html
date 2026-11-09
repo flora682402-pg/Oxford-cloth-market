@@ -1,0 +1,16 @@
+{#- Reusable pieces. Every image gets its real width and height so pages never
+    shift while loading. Text is escaped automatically by Jinja. -#}
+
+{% macro img(rel, alt, cls="", style="", lazy=true, priority=false, srcset="", sizes="") -%}
+{%- set d = dims(rel) -%}
+<img src="{{ asset(rel) }}"{% if srcset %} srcset="{{ srcset }}" sizes="{{ sizes }}"{% endif %} alt="{{ alt }}" width="{{ d[0] }}" height="{{ d[1] }}"{% if cls %} class="{{ cls }}"{% endif %}{% if style %} style="{{ style }}"{% endif %} {% if lazy %}loading="lazy" decoding="async"{% else %}decoding="async"{% endif %}{% if priority %} fetchpriority="high"{% endif %}>
+{%- endmacro %}
+
+{#- A photo that fills its frame, cropped around `position` (CSS object-position). -#}
+{% macro photo(image, alt, position) -%}
+<div class="ph">{{ img("img/" ~ image, alt, style="object-position:" ~ position) }}</div>
+{%- endmacro %}
+
+{% macro product_img(p, alt, sizes, lazy=true, priority=false) -%}
+{{ img(p.variants[600], alt, srcset=srcset(p), sizes=sizes, lazy=lazy, priority=priority) }}
+{%- endmacro %}

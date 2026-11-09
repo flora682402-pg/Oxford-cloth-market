@@ -71,6 +71,22 @@ The weekday ("Sat · Nov") is worked out from the date. Past events disappear
 on their own: the daily rebuild drops them, and visitors' browsers hide them
 in between. When no dates are left, the section says new dates are on the way.
 
+## Homepage photo tiles
+
+`data/home.json` holds the four photo tiles (two rows of two), plus the
+photos behind Product in Focus and About. For each tile you can change:
+
+- `image`: a file in `media/mood/`
+- `alt`: a short description of the photo for screen readers
+- `position`: where to crop, as `center 20%`. A lower percentage keeps more of
+  the top of the photo, so use it to keep heads in frame.
+- `copy`, `link` and `category`: the text, the link label, and which Clothing
+  filter the link opens (`shirts`, `tailoring`, `trousers`, `ties` or
+  `accessories`)
+
+Each row must have exactly two tiles. Page wording that isn't in a data file
+lives in `templates/index.html`.
+
 ## Editorial teasers
 
 `data/editorial.json` holds the two homepage articles. "Read more" only shows

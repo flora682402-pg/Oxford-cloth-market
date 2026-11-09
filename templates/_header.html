@@ -1,0 +1,36 @@
+{%- import "_macros.html" as m with context -%}
+{%- set home = "" if here == "index" else page("index") -%}
+{%- set clo = page("clothing") -%}
+{%- set left = [("New In", clo), ("Clothing", clo), ("Shirts", clo ~ "#shirts"), ("Trousers", clo ~ "#trousers")] -%}
+{%- set right = [("Tailoring", clo ~ "#tailoring"), ("Ties", clo ~ "#ties"), ("Accessories", clo ~ "#accessories"), ("Editorial", home ~ "#editorial")] -%}
+<a class="skip" href="#main">Skip to content</a>
+<header class="hdr" id="hdr">
+  <nav class="hdr-in" aria-label="Main">
+    <ul class="nav">
+      {%- for label, href in left %}
+      <li><a href="{{ href }}">{{ label }}</a></li>
+      {%- endfor %}
+    </ul>
+    <button class="iconbtn m-only" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="drawer">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h18"/></svg>
+    </button>
+    <span></span>
+    <ul class="nav r">
+      {%- for label, href in right %}
+      <li><a href="{{ href }}">{{ label }}</a></li>
+      {%- endfor %}
+    </ul>
+    <div class="right m-only">
+      <a class="iconbtn" href="{{ cfg.instagram }}" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".8" fill="currentColor"/></svg></a>
+      <a class="iconbtn" href="{{ cfg.ebay_store }}" aria-label="Shop on eBay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg></a>
+    </div>
+    <a class="badge" href="{{ '#main' if here == 'index' else page('index') }}" aria-label="{{ cfg.name }} home">{{ m.img("img/logo.webp", cfg.name ~ ", est. " ~ cfg.founded, lazy=false) }}</a>
+  </nav>
+  <nav class="drawer" id="drawer" hidden aria-label="Menu">
+    <ul>
+      {%- for label, href in left + right + [("Pop-ups", home ~ "#popups")] %}
+      <li><a href="{{ href }}">{{ label }}</a></li>
+      {%- endfor %}
+    </ul>
+  </nav>
+</header>
