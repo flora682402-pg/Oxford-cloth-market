@@ -57,6 +57,13 @@ slowdown. Google Fonts were blocked in both runs so the numbers are comparable.
 Google treats LCP under 2,500 ms and CLS under 0.1 as "good". Both pages now
 pass on a slow phone.
 
+**Correction (November 9).** The phone runs above emulated a 1× pixel-density
+screen. Real iPhones are 3×, so they download larger images. Re-measured at 3×
+on the same slow 4G profile, the Clothing page's LCP is about 2,200 ms and the
+homepage's about 1,000 ms. Both are still under Google's 2,500 ms "good"
+threshold, but the Clothing figure above is too optimistic. Measure phones at
+their real pixel density from now on.
+
 ## Visible changes
 
 - The small orange labels ("Editorial", "About us") are a darker orange so they

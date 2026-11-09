@@ -76,7 +76,8 @@ in between. When no dates are left, the section says new dates are on the way.
 `data/home.json` holds the four photo tiles (two rows of two), plus the
 photos behind Product in Focus and About. For each tile you can change:
 
-- `image`: a file in `media/mood/`
+- `image`: a photo in `media/mood/` (JPG is fine; use the full-size original,
+  and the build makes phone and desktop sizes)
 - `alt`: a short description of the photo for screen readers
 - `position`: where to crop, as `center 20%`. A lower percentage keeps more of
   the top of the photo, so use it to keep heads in frame.

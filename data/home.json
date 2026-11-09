@@ -5,7 +5,7 @@
   "rows": [
     [
       {
-        "image": "tailoring.webp",
+        "image": "tailoring.jpg",
         "alt": "Man in a corduroy sport coat, white shirt and patterned tie",
         "position": "center 12%",
         "copy": "Sport coats with real shoulders, honest tweed and herringbone, and the occasional made-in-Italy find. Vintage tailoring built to outlast the season it was bought in.",
@@ -13,7 +13,7 @@
         "link": "Shop tailoring"
       },
       {
-        "image": "ties.webp",
+        "image": "ties.jpg",
         "alt": "Man in a corduroy jacket with a paisley silk tie and pale trousers",
         "position": "center 6%",
         "copy": "Made-in-USA silk from Brooks Brothers, Burberrys and Gant. Repp stripes, foulards and the odd wild print, each one hand-picked and priced to wear.",
@@ -23,7 +23,7 @@
     ],
     [
       {
-        "image": "shirts.webp",
+        "image": "shirts.jpg",
         "alt": "Man in a gingham shirt and pleated trousers by the sea",
         "position": "center 18%",
         "copy": "The oxford cloth button-down is the backbone of a good wardrobe. Gitman, Ralph Lauren and Brooks, with the collar roll that newer shirts never quite get right.",
@@ -31,7 +31,7 @@
         "link": "Shop shirts"
       },
       {
-        "image": "trousers.webp",
+        "image": "trousers.jpg",
         "alt": "Man in a leather jacket, striped tie and wide black trousers against a blue wall",
         "position": "center 10%",
         "copy": "Pleated chinos, madras shorts and white denim. Trousers cut with a little room, the way they were made before everything got skinny.",
@@ -41,12 +41,12 @@
     ]
   ],
   "focus": {
-    "image": "focus-teal.webp",
+    "image": "focus-teal.jpg",
     "alt": "Man in a vintage teal windbreaker and ball cap against a teal wall",
     "position": "center 50%"
   },
   "about": {
-    "image": "about.webp",
+    "image": "about.jpg",
     "alt": "Man in a navy jacket, light denim and two-tone loafers in a studio",
     "position": "center 6%"
   }

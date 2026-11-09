@@ -28,6 +28,8 @@ from PIL import Image
 
 ROOT = Path(__file__).resolve().parent
 PRODUCT_WIDTHS = (400, 600)  # 600 is the source size; 400 serves phones
+PHOTO_WIDTHS = (640, 1024, 1200, 1600, 2400)  # lifestyle photos; the browser picks one per screen
+PHOTO_EXTS = (".jpg", ".jpeg", ".png", ".webp")
 CATEGORY_RE = re.compile(r"^[a-z][a-z-]*$")
 PRICE_RE = re.compile(r"^\d{1,6}\.\d{2}$")
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
@@ -176,9 +178,11 @@ def validate_home(data: dict, categories: set[str], media: Path) -> dict:
 _VARIANT_CACHE: dict[tuple, bytes] = {}
 
 
-def _encode_variant(src: Path, mtime: int, width: int) -> bytes:
-    """Resize/encode one product image width (memoised within a process)."""
-    key = (str(src), mtime, width)
+def _encode_variant(src: Path, mtime: int, width: int, quality: int = 80) -> bytes:
+    """Resize/encode one image width as WebP (memoised within a process)."""
+    # Keyed on the file's name, size and timestamp (not its folder), so test
+    # copies of the project reuse the work instead of re-encoding every photo.
+    key = (src.name, src.stat().st_size, mtime, width, quality)
     if key not in _VARIANT_CACHE:
         import io
         with Image.open(src) as im:
@@ -189,7 +193,7 @@ def _encode_variant(src: Path, mtime: int, width: int) -> bytes:
             im = im.convert("RGB")
             if im.width > width:
                 im = im.resize((width, round(im.height * width / im.width)), Image.LANCZOS)
-            im.save(buf, "WEBP", quality=80, method=6)
+            im.save(buf, "WEBP", quality=quality, method=6)
         _VARIANT_CACHE[key] = buf.getvalue()
     return _VARIANT_CACHE[key]
 
@@ -197,7 +201,7 @@ class Assets:
     """Copies/creates every static file and remembers image dimensions."""
 
     def __init__(self, out: Path, prefix: str):
-        self.out, self.prefix, self.dims = out, prefix, {}
+        self.out, self.prefix, self.dims, self.photos = out, prefix, {}, {}
 
     def url(self, rel: str) -> str:
         return self.prefix + rel
@@ -233,6 +237,23 @@ class Assets:
             out[w] = rel
         return out
 
+    def photo_variants(self, src: Path) -> dict[int, str]:
+        """Lifestyle photo -> WebP at each PHOTO_WIDTHS size up to its own width.
+        Never upscales: a photo narrower than 2400px tops out at its own width."""
+        with Image.open(src) as im:
+            natural = im.width
+        widths = [w for w in PHOTO_WIDTHS if w < natural] + [min(natural, PHOTO_WIDTHS[-1])]
+        out = {}
+        for w in sorted(set(widths)):
+            rel = f"img/{src.stem}-{w}.webp"
+            dest = self.out / rel
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            dest.write_bytes(_encode_variant(src, src.stat().st_mtime_ns, w, quality=78))
+            self._record(rel, dest)
+            out[w] = rel
+        self.photos[src.name] = out
+        return out
+
     def icons(self, logo: Path):
         with Image.open(logo) as im:
             im = im.convert("RGBA")
@@ -243,9 +264,12 @@ class Assets:
             im.resize((48, 48), Image.LANCZOS).save(self.out / "favicon.ico", sizes=[(16, 16), (32, 32), (48, 48)])
 
     def social_image(self, src: Path) -> str:
-        rel = "img/og.jpg"
+        rel = "img/og.jpg"  # link previews: 1200px wide is what social sites display
         with Image.open(src) as im:
-            im.convert("RGB").save(self.out / rel, "JPEG", quality=84, optimize=True, progressive=True)
+            im = im.convert("RGB")
+            if im.width > 1200:
+                im = im.resize((1200, round(im.height * 1200 / im.width)), Image.LANCZOS)
+            im.save(self.out / rel, "JPEG", quality=84, optimize=True, progressive=True)
         self._record(rel, self.out / rel)
         return rel
 
@@ -265,6 +289,7 @@ class Site:
         self.env.globals.update(
             cfg=cfg, year=today.year, page=self.page, abs=self.abs, asset=assets.url,
             dims=lambda rel: assets.dims[rel], srcset=self.product_srcset, money=self.money,
+            photo_src=self.photo_src, photo_srcset=self.photo_srcset,
             css=assets.css, js=assets.js,
             og={"url": assets.url(assets.og) if preview else self.abs(assets.og),
                 "width": assets.dims[assets.og][0], "height": assets.dims[assets.og][1]})
@@ -277,6 +302,14 @@ class Site:
 
     def abs(self, path: str) -> str:
         return self.cfg["site_url"] + ("" if path.startswith("/") else "/") + path
+
+    def photo_src(self, image: str) -> str:
+        """Fallback src for browsers without srcset: the 1600px copy, or the largest."""
+        v = self.assets.photos[image]
+        return v[1600] if 1600 in v else v[max(v)]
+
+    def photo_srcset(self, image: str) -> str:
+        return ", ".join(f"{self.assets.url(rel)} {w}w" for w, rel in sorted(self.assets.photos[image].items()))
 
     def product_srcset(self, p: dict) -> str:
         return ", ".join(f"{self.assets.url(rel)} {w}w" for w, rel in p["variants"].items())
@@ -379,12 +412,12 @@ def build(preview: bool = False, out: Path | None = None, today: dt.date | None 
     assets.css = assets.fingerprint(ROOT / "src/styles.css")
     assets.js = assets.fingerprint(ROOT / "src/site.js")
     assets.copy(ROOT / "media/brand/logo.webp", "img/logo.webp")
-    for f in sorted((ROOT / "media/mood").glob("*.webp")):
-        assets.copy(f, f"img/{f.name}")
+    for f in sorted(p for p in (ROOT / "media/mood").iterdir() if p.suffix.lower() in PHOTO_EXTS):
+        assets.photo_variants(f)
     for p in products:
         p["variants"] = assets.product_variants(ROOT / "media/products" / p["image"], p["id"])
     assets.icons(ROOT / "media/brand/logo.webp")
-    assets.og = assets.social_image(ROOT / "media/mood/hero.webp")
+    assets.og = assets.social_image(ROOT / "media/mood/hero.jpg")
     (out / "site.webmanifest").write_text(json.dumps({
         "name": cfg["name"], "short_name": "OCM", "start_url": "/", "display": "browser",
         "background_color": "#F2EADB", "theme_color": "#F2EADB",
