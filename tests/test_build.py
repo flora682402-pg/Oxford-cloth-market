@@ -392,3 +392,10 @@ def test_preview_build_uses_relative_links(site):
     clo = (out / "clothing.html").read_text()
     assert clo.startswith("<!doctype html>") and Doc(clo).errors == []
     assert 'href="index.html"' in clo and 'href="/' not in clo
+
+
+def test_product_in_focus_background_shows_the_jacket_not_the_face(dist):
+    """The focus background sits behind product cards; cropping it near the top puts a face behind them."""
+    text = (dist / "index.html").read_text()
+    m = re.search(r'focus-teal\.webp"[^>]*object-position:center (\d+)%', text)
+    assert m and 45 <= int(m.group(1)) <= 60, m and m.group(0)

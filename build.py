@@ -435,7 +435,7 @@ class Site:
   {article(arts[1], True, False) if arts[1] else ''}
 
   <section class="focus" aria-labelledby="focus-h">
-    {ph('img/focus-teal.webp', 'Man in a vintage teal windbreaker and ball cap against a teal wall', 'center 12%')}
+    {ph('img/focus-teal.webp', 'Man in a vintage teal windbreaker and ball cap against a teal wall', 'center 50%')}
     <div class="focus-in">
       <h2 id="focus-h">Product in Focus</h2>
       <div class="grid4">
