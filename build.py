@@ -381,7 +381,7 @@ class Site:
         hero = (f'<picture><source media="(max-width:900px)" srcset="{self.assets.url("img/hero-phone.webp")}" '
                 f'width="{hero_phone[0]}" height="{hero_phone[1]}">'
                 + self.img("img/hero.webp", "Man in a brown sport coat and foulard tie holding a coffee by a window",
-                           style="object-position:center 30%", lazy=False, priority=True) + "</picture>")
+                           lazy=False, priority=True) + "</picture>")
         ph = lambda rel, alt, pos: f'<div class="ph">{self.img(rel, alt, style=f"object-position:{pos}")}</div>'
 
         def article(a, flip, anchor):
@@ -417,25 +417,25 @@ class Site:
   </section>
 
   <section class="duo">
-    <div class="tile">{ph('img/tailoring.webp', 'Man in a corduroy sport coat, white shirt and patterned tie', 'center 25%')}
+    <div class="tile">{ph('img/tailoring.webp', 'Man in a corduroy sport coat, white shirt and patterned tie', 'center 12%')}
       <div class="copy"><p>Sport coats with real shoulders, honest tweed and herringbone, and the occasional made-in-Italy find. Vintage tailoring built to outlast the season it was bought in.</p><a class="ulink" href="{clo}#tailoring">Shop tailoring</a></div></div>
-    <div class="tile">{ph('img/ties.webp', 'Man in a corduroy jacket with a paisley silk tie and pale trousers', 'center 30%')}
+    <div class="tile">{ph('img/ties.webp', 'Man in a corduroy jacket with a paisley silk tie and pale trousers', 'center 6%')}
       <div class="copy"><p>Made-in-USA silk from Brooks Brothers, Burberrys and Gant. Repp stripes, foulards and the odd wild print, each one hand-picked and priced to wear.</p><a class="ulink" href="{clo}#ties">Shop ties</a></div></div>
   </section>
 
   {article(arts[0], False, True) if arts[0] else ''}
 
   <section class="duo">
-    <div class="tile">{ph('img/shirts.webp', 'Man in a gingham shirt and pleated trousers by the sea', 'center 25%')}
+    <div class="tile">{ph('img/shirts.webp', 'Man in a gingham shirt and pleated trousers by the sea', 'center 18%')}
       <div class="copy"><p>The oxford cloth button-down is the backbone of a good wardrobe. Gitman, Ralph Lauren and Brooks, with the collar roll that newer shirts never quite get right.</p><a class="ulink" href="{clo}#shirts">Shop shirts</a></div></div>
-    <div class="tile">{ph('img/trousers.webp', 'Man in a leather jacket, striped tie and wide black trousers against a blue wall', 'center 40%')}
+    <div class="tile">{ph('img/trousers.webp', 'Man in a leather jacket, striped tie and wide black trousers against a blue wall', 'center 10%')}
       <div class="copy"><p>Pleated chinos, madras shorts and white denim. Trousers cut with a little room, the way they were made before everything got skinny.</p><a class="ulink" href="{clo}#trousers">Shop trousers</a></div></div>
   </section>
 
   {article(arts[1], True, False) if arts[1] else ''}
 
   <section class="focus" aria-labelledby="focus-h">
-    {ph('img/focus-teal.webp', 'Man in a vintage teal windbreaker and ball cap against a teal wall', 'center 35%')}
+    {ph('img/focus-teal.webp', 'Man in a vintage teal windbreaker and ball cap against a teal wall', 'center 12%')}
     <div class="focus-in">
       <h2 id="focus-h">Product in Focus</h2>
       <div class="grid4">
@@ -465,7 +465,7 @@ class Site:
       <p>We specialize in classic menswear, but we like to think our pieces look good on everyone. Every garment is handpicked for character, craftsmanship and staying power. Dressing up, down or somewhere in between, {esc(c['name'])} has you covered.</p>
       <a class="ulink" href="{clo}">Shop the rack</a>
     </div>
-    <div class="img">{ph('img/about.webp', 'Man in a navy jacket, light denim and two-tone loafers in a studio', 'center 30%')}</div>
+    <div class="img">{ph('img/about.webp', 'Man in a navy jacket, light denim and two-tone loafers in a studio', 'center 6%')}</div>
   </section>
 
   <section class="ig">

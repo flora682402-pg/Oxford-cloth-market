@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.0.1 — 2026-11-09
+
+### Fixed
+
+- Photos no longer crop people's heads off on very wide monitors. The photo rows
+  are now capped at the page width, each photo's crop is anchored on the person,
+  and the desktop and phone hero images have separate crops.
+- Added tests at 1920, 2560 and 3440px wide so this is caught automatically.
+
 ## 1.0.0 — 2026-11-08
 
 First production release.

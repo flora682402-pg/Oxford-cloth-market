@@ -13,7 +13,7 @@ from playwright.sync_api import expect, sync_playwright
 import build
 import serve
 
-WIDTHS = [320, 390, 768, 1024, 1440]
+WIDTHS = [320, 390, 768, 1024, 1440, 1920, 2560]
 
 
 @pytest.fixture(scope="module")
@@ -217,3 +217,11 @@ def test_works_with_javascript_disabled(open_page):
 def test_reduced_motion_respected(open_page):
     page = open_page("/", reduced_motion="reduce")
     assert page.locator(".badge").evaluate("e => getComputedStyle(e).transitionDuration") == "0s"
+
+
+@pytest.mark.parametrize("width,height", [(1440, 900), (1920, 1080), (2560, 1080), (3440, 1440)])
+def test_portrait_photos_stay_portrait_on_wide_screens(open_page, width, height):
+    """Photo tiles must not turn into wide strips that crop heads off (ultrawide regression)."""
+    page = open_page("/", width=width, height=height)
+    boxes = page.evaluate("[...document.querySelectorAll('.tile, .feature .img')].map(t => t.getBoundingClientRect()).map(r => r.width / r.height)")
+    assert boxes and max(boxes) <= 1.0, boxes
