@@ -6,9 +6,11 @@
 <img src="{{ asset(rel) }}"{% if srcset %} srcset="{{ srcset }}" sizes="{{ sizes }}"{% endif %} alt="{{ alt }}" width="{{ d[0] }}" height="{{ d[1] }}"{% if cls %} class="{{ cls }}"{% endif %}{% if style %} style="{{ style }}"{% endif %} {% if lazy %}loading="lazy" decoding="async"{% else %}decoding="async"{% endif %}{% if priority %} fetchpriority="high"{% endif %}>
 {%- endmacro %}
 
-{#- A photo that fills its frame, cropped around `position` (CSS object-position). -#}
-{% macro photo(image, alt, position) -%}
-<div class="ph">{{ img("img/" ~ image, alt, style="object-position:" ~ position) }}</div>
+{#- A lifestyle photo that fills its frame, cropped around `position` (CSS
+    object-position). `sizes` tells the browser how wide the frame is, so it
+    downloads the smallest copy that is still sharp on that screen. -#}
+{% macro photo(image, alt, position, sizes) -%}
+<div class="ph">{{ img(photo_src(image), alt, style="object-position:" ~ position, srcset=photo_srcset(image), sizes=sizes) }}</div>
 {%- endmacro %}
 
 {% macro product_img(p, alt, sizes, lazy=true, priority=false) -%}

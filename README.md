@@ -89,8 +89,9 @@ step-by-step instructions.
 
 ## Quality bar
 
-- **Performance.** On a slow phone connection, both pages show their main
-  content in under 0.9 seconds with zero layout shift.
+- **Performance.** On an iPhone over slow 4G, the homepage shows its main
+  content in about 1 second and the Clothing page in about 2.2 seconds, both
+  under Google's 2.5-second "good" threshold, with zero layout shift.
   ([audit numbers](docs/AUDIT.md#measurements-before-and-after))
 - **Security.** Strict content security policy, HSTS and anti-framing headers.
   No inline scripts and no secrets in the repository.

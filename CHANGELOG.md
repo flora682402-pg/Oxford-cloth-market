@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.2.0 — 2026-11-09
+
+### Changed
+
+- Replaced all 10 lifestyle photos with full-size Pexels originals (3–4× the
+  resolution). The build now makes five sizes of each, and pages tell the
+  browser which to pick, so photos are sharp on retina and ultrawide screens
+  while phones still download small files.
+- Social link previews now use a 1,200px image.
+
+### Fixed
+
+- Corrected the audit's phone performance figures, which were measured at 1×
+  pixel density instead of an iPhone's 3×.
+
 ## 1.1.0 — 2026-11-09
 
 ### Changed

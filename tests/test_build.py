@@ -246,7 +246,7 @@ def test_product_images_have_phone_sizes(dist):
 
 def test_hero_is_prioritised_and_others_lazy(dist):
     imgs = load(dist, "index.html").all("img")
-    hero = next(i for i in imgs if i["src"].endswith("hero.webp"))
+    hero = next(i for i in imgs if "/img/hero-" in i["src"])
     assert hero.get("fetchpriority") == "high" and "loading" not in hero
     lazy = [i for i in imgs if i.get("loading") == "lazy"]
     assert len(lazy) >= len(imgs) - 2  # only the logo and hero load eagerly
@@ -397,7 +397,7 @@ def test_preview_build_uses_relative_links(site):
 def test_product_in_focus_background_shows_the_jacket_not_the_face(dist):
     """The focus background sits behind product cards; cropping it near the top puts a face behind them."""
     text = (dist / "index.html").read_text()
-    m = re.search(r'focus-teal\.webp"[^>]*object-position:center (\d+)%', text)
+    m = re.search(r'focus-teal-\d+\.webp"[^>]*object-position:center (\d+)%', text)
     assert m and 45 <= int(m.group(1)) <= 60, m and m.group(0)
 
 
@@ -437,3 +437,34 @@ def test_template_typos_fail_the_build(site):
 def test_no_html_left_in_build_py():
     src = (build.ROOT / "build.py").read_text()
     assert not re.search(r"<(div|section|main|footer|header|nav|ul|li|h[1-6]|p)[ >]", src)
+
+
+# ---------------------------------------------------------- lifestyle photos
+
+def test_lifestyle_photos_have_responsive_sizes(dist):
+    """Every lifestyle photo offers several widths so phones download small files."""
+    doc = load(dist, "index.html")
+    photos = [i for i in doc.all("img") if re.search(r"/img/[a-z-]+-\d+\.webp$", i["src"])]
+    assert len(photos) >= 9
+    for img in photos:
+        widths = [int(w) for w in re.findall(r"(\d+)w", img["srcset"])]
+        assert len(widths) >= 3 and min(widths) == 640, img["src"]
+        assert img.get("sizes"), img["src"]
+    phone = [s for s in doc.all("source") if "hero-phone" in s.get("srcset", "")]
+    assert phone and phone[0]["sizes"] == "100vw"
+
+
+def test_photo_copies_are_never_upscaled(dist):
+    for src in (build.ROOT / "media/mood").iterdir():
+        with Image.open(src) as im:
+            natural = im.width
+        for out in (dist / "img").glob(f"{src.stem}-*.webp"):
+            if not re.fullmatch(rf"{re.escape(src.stem)}-\d+\.webp", out.name):
+                continue
+            with Image.open(out) as im:
+                assert im.width <= natural, out.name
+
+
+def test_social_preview_image_is_1200_wide(dist):
+    with Image.open(dist / "img/og.jpg") as im:
+        assert im.width == 1200

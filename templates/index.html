@@ -6,7 +6,8 @@
 {%- set clo = page("clothing") -%}
 <main id="main">
   <section class="hero">
-    <div class="ph"><picture><source media="(max-width:900px)" srcset="{{ asset('img/hero-phone.webp') }}" width="{{ dims('img/hero-phone.webp')[0] }}" height="{{ dims('img/hero-phone.webp')[1] }}">{{ m.img("img/hero.webp", home.hero.alt, lazy=false, priority=true) }}</picture></div>
+    {%- set phone = photo_src("hero-phone.jpg") %}
+    <div class="ph"><picture><source media="(max-width:900px)" srcset="{{ photo_srcset('hero-phone.jpg') }}" sizes="100vw" width="{{ dims(phone)[0] }}" height="{{ dims(phone)[1] }}">{{ m.img(photo_src("hero.jpg"), home.hero.alt, lazy=false, priority=true, srcset=photo_srcset("hero.jpg"), sizes="100vw") }}</picture></div>
     <div class="hero-cap">
       <h1>Great style doesn't follow trends.<br>It lasts.</h1>
       <div class="links"><a class="ulink" href="#about">Our story</a><a class="ulink" href="{{ clo }}">Shop new in</a></div>
@@ -15,7 +16,7 @@
 {% for row in home.rows %}
   <section class="duo">
     {%- for t in row %}
-    <div class="tile">{{ m.photo(t.image, t.alt, t.position) }}
+    <div class="tile">{{ m.photo(t.image, t.alt, t.position, "(max-width:900px) 100vw, 718px") }}
       <div class="copy"><p>{{ t["copy"] }}</p><a class="ulink" href="{{ clo }}#{{ t.category }}">{{ t.link }}</a></div></div>
     {%- endfor %}
   </section>
@@ -31,12 +32,12 @@
       <a class="ulink" href="{{ a.url }}">Read more</a>
       {%- endif %}
     </div>
-    <div class="img">{{ m.photo(a.image, a.alt, a.position or "center 25%") }}</div>
+    <div class="img">{{ m.photo(a.image, a.alt, a.position or "center 25%", "(max-width:900px) calc(100vw - 32px), 680px") }}</div>
   </section>
   {%- endif %}
 {% endfor %}
   <section class="focus" aria-labelledby="focus-h">
-    {{ m.photo(home.focus.image, home.focus.alt, home.focus.position) }}
+    {{ m.photo(home.focus.image, home.focus.alt, home.focus.position, "100vw") }}
     <div class="focus-in">
       <h2 id="focus-h">Product in Focus</h2>
       <div class="grid4">
@@ -72,7 +73,7 @@
       <p>We specialize in classic menswear, but we like to think our pieces look good on everyone. Every garment is handpicked for character, craftsmanship and staying power. Dressing up, down or somewhere in between, {{ cfg.name }} has you covered.</p>
       <a class="ulink" href="{{ clo }}">Shop the rack</a>
     </div>
-    <div class="img">{{ m.photo(home.about.image, home.about.alt, home.about.position) }}</div>
+    <div class="img">{{ m.photo(home.about.image, home.about.alt, home.about.position, "(max-width:900px) calc(100vw - 32px), 680px") }}</div>
   </section>
 
   <section class="ig">
