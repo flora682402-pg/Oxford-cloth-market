@@ -77,6 +77,11 @@ def validate_config(cfg: dict) -> dict:
     https_url(cfg["ebay_store"], "config.ebay_store")
     if cfg.get("newsletter_action"):
         https_url(cfg["newsletter_action"], "config.newsletter_action")
+    if cfg.get("google_business"):
+        https_url(cfg["google_business"], "config.google_business")
+    loc = cfg.get("location")
+    if not isinstance(loc, dict) or not all(isinstance(loc.get(k), str) and loc[k] for k in ("city", "region", "country")):
+        raise BuildError("config.json: location needs city, region and country")
     for key, label in cfg["categories"]:
         if not CATEGORY_RE.match(key) or not label:
             raise BuildError(f"config.categories: bad entry {key!r}")
@@ -331,12 +336,28 @@ class Site:
                        day=dt.date.fromisoformat(e["date"]).day) for e in self.events]
         featured = sorted((p for p in self.products if p.get("featured")), key=lambda p: p["featured"]["order"])[:4]
         logo = self.assets.url("icon-512.png") if self.preview else self.abs(self.assets.url("icon-512.png"))
+        org_id = c["site_url"] + "/#org"
+        loc = c["location"]
+        # A service-area business: the city is public, the street address is not.
+        address = {"@type": "PostalAddress", "addressLocality": loc["city"],
+                   "addressRegion": loc["region"], "addressCountry": loc["country"]}
+        same_as = [c["instagram"], c["ebay_store"]] + ([c["google_business"]] if c.get("google_business") else [])
+        store = {"@type": "ClothingStore", "@id": org_id, "name": c["name"], "url": c["site_url"] + "/",
+                 "logo": logo, "image": self.env.globals["og"]["url"], "description": c["description"], "foundingDate": c["founded"],
+                 "address": address, "areaServed": {"@type": "City", "name": f"{loc['city']}, {loc['region']}"},
+                 "sameAs": same_as}
+        pop_ups = [{"@type": "Event", "name": f"{c['name']} pop-up at {e['name']}", "startDate": e["date"],
+                    "eventStatus": "https://schema.org/EventScheduled",
+                    "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+                    "location": {"@type": "Place", "name": e["name"], "address": address},
+                    "image": self.env.globals["og"]["url"], "url": e["url"],
+                    "description": f"Hand-picked vintage menswear from {c['name']} at {e['name']}, {e['where']}.",
+                    "organizer": {"@id": org_id}} for e in self.events]
         ld = {"@context": "https://schema.org", "@graph": [
-            {"@type": "Organization", "@id": c["site_url"] + "/#org", "name": c["name"], "url": c["site_url"] + "/",
-             "logo": logo, "description": c["description"], "foundingDate": c["founded"],
-             "sameAs": [c["instagram"], c["ebay_store"]]},
+            store,
             {"@type": "WebSite", "@id": c["site_url"] + "/#site", "name": c["name"], "url": c["site_url"] + "/",
-             "publisher": {"@id": c["site_url"] + "/#org"}},
+             "publisher": {"@id": org_id}},
+            *pop_ups,
         ]}
         return self.render("index.html", here="index", title=f"{c['name']} | Vintage menswear from Tulsa",
                            description=c["description"], path="/", ld=ld, fragment=self.preview,

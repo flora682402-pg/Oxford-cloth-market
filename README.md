@@ -16,7 +16,7 @@ server and no database, so it is fast, inexpensive to host and hard to break.
 | Pages | Home, Clothing (filterable by category), 404 |
 | Build | `build.py` + `templates/`: Python 3.10+, Pillow and Jinja2 |
 | Hosting | Cloudflare Pages (static files on a global CDN) |
-| Tests | 113: build, content, data and template checks, plus real-browser tests |
+| Tests | 121: build, content, data and template checks, plus real-browser tests |
 | Checks on every push | Build, strict TypeScript check of the JavaScript, full test suite |
 | Deploys | Automatic from `main` once Cloudflare is connected, plus a daily rebuild |
 
@@ -97,9 +97,9 @@ step-by-step instructions.
   No inline scripts and no secrets in the repository.
 - **Accessibility.** WCAG AA text contrast, skip link, keyboard-operable menu,
   alt text on every image, and reduced-motion support.
-- **SEO.** Canonical URLs, Open Graph images, structured data, sitemap and
-  robots.txt.
-- **Tested.** 113 tests, including browser checks from 320 to 3440px wide
+- **SEO.** Canonical URLs, Open Graph images, sitemap and robots.txt, plus
+  structured data that describes a Tulsa clothing store and its pop-up events.
+- **Tested.** 121 tests, including browser checks from 320 to 3440px wide
   against the production security headers.
 
 ## Documentation

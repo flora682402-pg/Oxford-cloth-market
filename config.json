@@ -4,8 +4,14 @@
   "tagline": "Great style doesn't follow trends. It lasts.",
   "description": "Hand-picked vintage and secondhand menswear from Tulsa: Brooks Brothers, Ralph Lauren, Gitman and made-in-USA silk ties. Shop online or find us at our next pop-up.",
   "founded": "2025",
+  "location": {
+    "city": "Tulsa",
+    "region": "OK",
+    "country": "US"
+  },
   "instagram": "https://www.instagram.com/oxfordclothmarket",
   "ebay_store": "https://www.ebay.com/str/oxfordclothmarket",
+  "google_business": "",
   "newsletter_action": "",
   "categories": [
     [
