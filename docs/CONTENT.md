@@ -99,3 +99,9 @@ once an article has a `url`, so there are never dead links.
 eBay links, the category list, and `newsletter_action`. Set that last one to
 the form address from an email provider to turn on real newsletter sign-ups.
 Until then, the form says sign-up opens soon and stores nothing.
+
+`location` is the city, state and country search engines see. It never
+includes a street address. `google_business` stays empty until the Google
+Business Profile is public. Then paste the profile's share link there (in
+Google Search, open the profile and choose Share) so Google ties the profile
+and the site together.

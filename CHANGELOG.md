@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.3.0 — 2026-11-10
+
+### Added
+
+- The homepage now tells search engines that Oxford Cloth Market is a
+  clothing store serving Tulsa. Only the city is published, never a street
+  address.
+- Upcoming pop-ups are marked up as events, so Google can list them in event
+  searches. Past dates drop out on the daily rebuild.
+- `google_business` in `config.json`: once the Google Business Profile is
+  public, paste its link there to connect it to the site.
+
 ## 1.2.0 — 2026-11-09
 
 ### Changed

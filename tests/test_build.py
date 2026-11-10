@@ -202,6 +202,47 @@ def test_structured_data_is_valid_json(dist, name):
     assert data["@context"] == "https://schema.org" and data["@graph"]
 
 
+def ld_graph(out: Path, name: str = "index.html") -> list[dict]:
+    block = re.search(r'<script type="application/ld\+json">(.*?)</script>', (out / name).read_text(), re.S)
+    return json.loads(block.group(1))["@graph"]
+
+
+def test_home_marks_up_a_tulsa_clothing_store_without_street_address(dist):
+    store = next(n for n in ld_graph(dist) if n.get("@id", "").endswith("/#org"))
+    assert store["@type"] == "ClothingStore"
+    assert store["address"]["addressLocality"] == "Tulsa" and store["address"]["addressRegion"] == "OK"
+    assert "streetAddress" not in json.dumps(ld_graph(dist))
+    assert store["areaServed"]["name"] == "Tulsa, OK"
+
+
+def test_upcoming_pop_ups_are_marked_up_as_events(dist):
+    events = [n for n in ld_graph(dist) if n["@type"] == "Event"]
+    assert [e["startDate"] for e in events] == ["2026-11-21", "2026-12-13"]
+    for e in events:
+        assert e["location"]["@type"] == "Place" and e["location"]["address"]["addressLocality"] == "Tulsa"
+        assert e["organizer"]["@id"].endswith("/#org") and e["image"].startswith("https://")
+
+
+def test_past_pop_ups_leave_the_markup(site):
+    out = build.build(today=dt.date(2026, 11, 22))
+    assert [e["startDate"] for e in ld_graph(out) if e["@type"] == "Event"] == ["2026-12-13"]
+
+
+def test_google_business_profile_joins_same_as(site, dist):
+    store = next(n for n in ld_graph(dist) if n["@type"] == "ClothingStore")
+    assert len(store["sameAs"]) == 2
+    url = "https://maps.app.goo.gl/example"
+    edit_json(site / "config.json", lambda c: c.__setitem__("google_business", url))
+    out = build.build(today=TODAY)
+    assert url in next(n for n in ld_graph(out) if n["@type"] == "ClothingStore")["sameAs"]
+
+
+def test_bad_location_is_rejected(site):
+    edit_json(site / "config.json", lambda c: c["location"].pop("city"))
+    with pytest.raises(build.BuildError, match="location"):
+        build.build(today=TODAY)
+
+
 def test_404_is_noindex(dist):
     metas = {m.get("name"): m.get("content") for m in load(dist, "404.html").all("meta")}
     assert metas["robots"] == "noindex"
